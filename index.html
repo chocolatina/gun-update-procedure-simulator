@@ -152,20 +152,25 @@
           </div>
           <div class="result__item result__item--recommend">
             <dl class="result__recommended-schedule">
-              <dt>{{deadline.year - 1}}/1</dt>
-              <dd>経験者講習会受講申込み</dd>
+              <dt>{{keikenshaKosyuCheckDate.year}}/4</dt>
+              <dd>
+                <p>経験者講習会日程を警察ホームページでチェック</p>
+                <p class="result__calender">
+                  <a :href="'http://www.google.com/calendar/event?action=TEMPLATE&text=経験者講習会日程を警察ホームページでチェック&details=各都道府県の警察のホームページにて、経験者講習会の日程をチェックしてください。&dates='+keikenshaKosyuCheckDate.year+'0401/'+keikenshaKosyuCheckDate.year+'0402'" target="_blank" class="c-button c-button--secondary c-button--small">Googleカレンダーに登録</a>
+                </p>
+              </dd>
             </dl>
             <dl class="result__recommended-schedule">
-              <dt>{{deadline.year - 1}}/2</dt>
-              <dd>経験者講習会受講</dd>
+              <dt>{{keikenshaKosyuCheckDate.year}}/4</dt>
+              <dd>
+                <p>技能講習日程を警察ホームページでチェック</p>
+                <p class="result__calender">
+                  <a :href="'http://www.google.com/calendar/event?action=TEMPLATE&text=技能講習日程を警察ホームページでチェック&details=各都道府県の警察のホームページにて、技能講習の日程をチェックしてください。&dates='+keikenshaKosyuCheckDate.year+'0401/'+keikenshaKosyuCheckDate.year+'0402'" target="_blank" class="c-button c-button--secondary c-button--small">Googleカレンダーに登録</a>
+                </p></dd>
             </dl>
             <dl class="result__recommended-schedule">
-              <dt>{{deadline.year - 1}}/3</dt>
-              <dd>技能講習受講申込み</dd>
-            </dl>
-            <dl class="result__recommended-schedule">
-              <dt>{{deadline.year - 1}}/4</dt>
-              <dd>技能講習受講</dd>
+              <dt>{{keikenshaKosyuCheckDate.year}}/6</dt>
+              <dd>経験者講習会・技能講習 受講</dd>
             </dl>
             <dl class="result__recommended-schedule">
               <dt>{{getMediTermStartDate.year}}/{{getMediTermStartDate.month}}</dt>
@@ -284,6 +289,7 @@
       getMediTermStartDate: { year: 2020, month: 1, day: 1 },
       getMediTermStartDate2Digit: { year: 2020, month: 11, day: 11 },
       getMediTermStartDateMoment: "",
+      keikenshaKosyuCheckDate: { year: 2020, month: 1, day: 1 },
       isBirthdayError: false,
       isDaysEarlierError: false,
       isGengoModalShown: false,
@@ -441,6 +447,16 @@
         this.getMediTermStartDate2Digit.month = this.zeroPadding(this.getMediTermStartDateMoment.format("MM"),2)
         this.getMediTermStartDate2Digit.day = this.zeroPadding(this.getMediTermStartDateMoment.format("DD"),2)
 
+        //経験者講習のスケジュールをチェックする日
+        //おおよそ4月にチェックすれば良さそう。ただし、診断書取得日が1-6月の人=講習日より先に申請期限が来そうなので1年引く。
+        if (this.getMediTermStartDate.month < 7) {
+          this.keikenshaKosyuCheckDate.year = this.getMediTermStartDate.year - 1
+        }
+        else {
+          this.keikenshaKosyuCheckDate.year = this.getMediTermStartDate.year
+        }
+        this.keikenshaKosyuCheckDate.month = this.getMediTermStartDate.month
+        this.keikenshaKosyuCheckDate.day = this.getMediTermStartDate.day
       }
     }
   })
@@ -712,6 +728,7 @@
     white-space: nowrap;
     line-height: 1.4;
     opacity: .8;
+    min-width: 4.5em;
   }
   .result__recommended-schedule dd {
     flex-grow: 1;
