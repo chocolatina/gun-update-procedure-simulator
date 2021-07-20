@@ -194,10 +194,11 @@
           <label class="input-form__label">猟銃所持許可の最終更新日付は？</label>
           <div class="gengo-seireki c-textlink">
             <p class="input-form__input-area">
-              <input type="date" v-model="lastUpdateDateText" @blur="enableSimulateButton" class="input-form__input" required>
+              <input type="date" v-model="lastUpdateDateText" @blur="enableSimulateButton" @change="changeLastUpdateDateToArray(lastUpdateDateText)" class="input-form__input" required>
             </p>
             <span @click="isGengoModalShown = true" class="gengo-seireki-link c-text-link">元号:西暦早見表</span>
           </div>
+          <p class="input-form__caption">({{lastUpdateDateYearGengo.gengo}}{{lastUpdateDateYearGengo.year}}年{{lastUpdateDate.month}}月{{lastUpdateDate.day}}日)</p>
         </div>
         <div class="input-form__item">
           <label class="input-form__label">誕生日は？</label>
@@ -272,6 +273,7 @@
       birthdayMonthText: "1",
       birthdayDayText: "1",
       lastUpdateDate: { year: 2020, month: 1, day: 1 },
+      lastUpdateDateYearGengo: {year:1, gengo:"令和"},
       birthday: { year: 1980, month: 1, day: 1 },
       deadline: { year: 0, month: 0, day: 0 },
       lastUpdateDateArray : [],
@@ -341,23 +343,34 @@
           this.isTyuiError = false
         }
       },
-      /*showBirthdayError() {
-      },*/
       zeroPadding(num,length){
         return ('0000000000' + num).slice(-length)
+      },
+      changeLastUpdateDateToArray(thisLastUpdateDateText) {
+        //入力された値を配列に変換する
+        this.lastUpdateDateArray = thisLastUpdateDateText.split('-')
+
+        //上記の配列のものをlastUpdateDateに入れる
+        this.lastUpdateDate.year = this.lastUpdateDateArray[0]
+        this.lastUpdateDate.month = this.lastUpdateDateArray[1]
+        this.lastUpdateDate.day = this.lastUpdateDateArray[2]
+
+        if(this.lastUpdateDate.year < 2019) {
+          this.lastUpdateDateYearGengo.year = this.lastUpdateDate.year - 1988
+          this.lastUpdateDateYearGengo.gengo = "平成"
+        }
+        else {
+          this.lastUpdateDateYearGengo.year = this.lastUpdateDate.year - 2018
+          this.lastUpdateDateYearGengo.gengo = "令和"
+        }
       },
       simulate(){
         window.scrollTo(0, 0)
         this.isSimulateButtonEnabled = false
         this.isSimulated = true
         //有効期限
-        //入力された値を配列に変換する
-        this.lastUpdateDateArray = this.lastUpdateDateText.split('-')
 
-        //上記の配列のものをlastUpdateDateに入れる
-        this.lastUpdateDate.year = this.lastUpdateDateArray[0]
-        this.lastUpdateDate.month = this.lastUpdateDateArray[1]
-        this.lastUpdateDate.day = this.lastUpdateDateArray[2]
+        this.changeLastUpdateDateToArray(this.lastUpdateDateText)
 
         //誕生日はそのまま入れる
         this.birthday.month = this.birthdayMonthText
@@ -673,6 +686,10 @@
     color: #cc0000;
     font-size: 16px;
     margin-top: .5em;
+  }
+  .input-form__caption {
+    font-size: .9em;
+    opacity: .9;
   }
   .result {
 
