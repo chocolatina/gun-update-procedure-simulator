@@ -56,7 +56,15 @@
             </thead>
             <tbody>
               <tr>
-                <th>令和1年</th>
+                <th>平成29年</th>
+                <td>2017年</td>
+              </tr>
+              <tr>
+                <th>平成30年</th>
+                <td>2018年</td>
+              </tr>
+              <tr>
+                <th>令和1年(平成31年)</th>
                 <td>2019年</td>
               </tr>
               <tr>
@@ -105,7 +113,8 @@
         <div class="result__container">
           <div class="result__item">
             <h3 class="result__title">猟銃所持許可証 有効期限</h3>
-            <p><strong>{{deadline.year}}/{{deadline.month}}/{{deadline.day}}</strong></p>
+            <p><strong>{{deadline.year}}/{{deadline.month}}/{{deadline.day}}</strong><br>
+              <span @click="isGengoModalShown = true" class="gengo-seireki-link c-text-link">元号:西暦早見表</span></p>
           </div>
           <div class="result__item">
             <h3 class="result__title">申請期間開始日〜終了日</h3>
