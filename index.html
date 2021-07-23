@@ -6,8 +6,8 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ja.min.js" type="text/javascript"></script>
+<script src="js/moment.js/2.29.1/moment.min.js" type="text/javascript"></script>
+<script src="js/moment.js/2.29.1/locale/ja.min.js" type="text/javascript"></script>
 <meta property="og:title" content="猟銃所持許可更新スケジュール計算" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://chocolatina.jp/gun-update-procedure-simulator/" />
@@ -113,8 +113,9 @@
         <div class="result__container">
           <div class="result__item">
             <h3 class="result__title">猟銃所持許可証 有効期限</h3>
-            <p><strong>{{deadline.year}}/{{deadline.month}}/{{deadline.day}}</strong><br>
-              <span @click="isGengoModalShown = true" class="gengo-seireki-link c-text-link">元号:西暦早見表</span></p>
+            <p>
+              <strong>{{deadline.year}}/{{deadline.month}}/{{deadline.day}}</strong><br>
+              <span class="result__caption">({{deadlineYearGengo.gengo}}{{deadlineYearGengo.year}}年{{deadline.month}}月{{deadline.day}}日)</span></p>
           </div>
           <div class="result__item">
             <h3 class="result__title">申請期間開始日〜終了日</h3>
@@ -285,6 +286,7 @@
       lastUpdateDateYearGengo: {year:1, gengo:"令和"},
       birthday: { year: 1980, month: 1, day: 1 },
       deadline: { year: 0, month: 0, day: 0 },
+      deadlineYearGengo: { year: 3, gengo: "令和" },
       lastUpdateDateArray : [],
       simulateResult: "",
       procedureStartDate: { year: 0, month: 0, day: 0 },
@@ -387,7 +389,6 @@
 
         //誕生日と最終更新日を比べて、もし誕生日が早かったら
         if(Number(this.birthday.month) < Number(this.lastUpdateDate.month)) {
-          console.log(Number(this.birthday.month),Number(this.lastUpdateDate.month),"誕生日と最終更新日を比べて、誕生日が早かった")
           this.deadline.year = Number(this.lastUpdateDate.year) + 3
         }
         else {
@@ -404,9 +405,19 @@
           }
           //もし誕生日が最終更新日より遅かったら
           else {
-            console.log(Number(this.birthday.month),Number(this.lastUpdateDate.month),"誕生日と最終更新日を比べて、誕生日が遅かった")
             this.deadline.year = Number(this.lastUpdateDate.year) + 2
           }
+        }
+
+        //元号を出す
+        //後でやる！
+        if(this.deadline.year < 2019) {
+          this.deadlineYearGengo.year = this.deadline.year - 1988
+          this.deadlineYearGengo.gengo = "平成"
+        }
+        else {
+          this.deadlineYearGengo.year = this.deadline.year - 2018
+          this.deadlineYearGengo.gengo = "令和"
         }
         
         this.deadline.month = this.birthday.month
