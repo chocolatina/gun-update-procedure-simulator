@@ -143,6 +143,21 @@
             </p>
           </div>
 
+          <div class="result__item">
+            <h3 class="result__title">狩猟免許有効期限</h3>
+            <p>
+              <strong>
+                {{hunterLicenseLimitDate.year}}/{{hunterLicenseLimitDate.month}}/{{hunterLicenseLimitDate.day}}
+              </strong>
+            </p>
+            <!--<p class="result__calender">
+              <a :href="'http://www.google.com/calendar/event?action=TEMPLATE&text=猟銃所持許可更新の診断書取得期間&details=必要書類%0Ahttps%3A%2F%2Fwww.keishicho.metro.tokyo.jp%2Ftetsuzuki%2Ffirearms%2Fapplication%2Fupdate.html&dates='+getMediTermStartDate2Digit.year+getMediTermStartDate2Digit.month+getMediTermStartDate2Digit.day+'/'+nextDayOfDoProcedureDate.year+nextDayOfDoProcedureDate.month+nextDayOfDoProcedureDate.day" target="_blank" class="c-button c-button--secondary">Googleカレンダーに登録</a>
+            </p>-->
+          </div>
+          
+
+
+
         </div>
         <h2 class="result__header">おすすめのスケジュール</h2>
         <div class="result__recommend">
@@ -218,20 +233,18 @@
           </p>
           <p class="input-form__error" v-if="isBirthdayError">※ 誕生日を正しく入力してください</p>
         </div>
-
-
-
-
         <div class="input-form__item">
           <label class="input-form__label">狩猟者ですか？</label>
           <p class="input-form__input-area">
             <input type="checkbox" class="input-form__checkbox" v-model="isHunter" @blur="enableSimulateButton">はい (狩猟者です)
           </p>
         </div>
-
-
-
-
+        <div class="input-form__item">
+          <label class="input-form__label">狩猟免許最終更新日</label>
+          <p class="input-form__input-area">
+            <input type="number" v-model="hunterLicenseGetDateYear" pattern="\d*" class="input-form__input" @blur="enableSimulateButton" :disabled="!isHunter"> 年
+          </p>
+        </div>
         <div class="input-form__item">
           <label class="input-form__label">申請希望日</label>
           <p class="input-form__input-area">申請期間終了日の&nbsp;
@@ -323,7 +336,9 @@
       isTyuiModalShown: false,
       isTyuiChecked : true,
       isTyuiError: false,
-      isHunter: true
+      isHunter: true,
+      hunterLicenseGetDateYear: 2019,
+      hunterLicenseLimitDate: { year: 2022, month: 9, day: 14 }
     },
     methods: {
       enableSimulateButton() {
