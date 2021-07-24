@@ -118,11 +118,11 @@
               <span class="result__caption">({{deadlineYearGengo.gengo}}{{deadlineYearGengo.year}}年{{deadline.month}}月{{deadline.day}}日)</span></p>
           </div>
           <div class="result__item">
-            <h3 class="result__title">申請期間開始日〜終了日</h3>
+            <h3 class="result__title">猟銃所持許可更新<br>申請期間開始日〜終了日</h3>
             <p><strong>{{procedureStartDate.year}}/{{procedureStartDate.month}}/{{procedureStartDate.day}} 〜 {{procedureEndDate.year}}/{{procedureEndDate.month}}/{{procedureEndDate.day}}</strong></p>
           </div>
           <div class="result__item">
-            <h3 class="result__title">申請希望日</h3>
+            <h3 class="result__title">猟銃所持許可更新申請希望日</h3>
             <p><strong>{{doProcedureDate.year}}/{{doProcedureDate.month}}/{{doProcedureDate.day}}</strong><br>
               <span class="result__caption">(申請期間終了日の{{daysEarlier}}日前)</span>
             </p>
@@ -450,25 +450,25 @@
         */
 
 
-        //申請希望日
-        //申請期間終了日の(daysEalier)日前に申請したい
+        //猟銃所持許可更新申請希望日
+        //猟銃所持許可更新 申請期間終了日の(daysEalier)日前に申請したい
         this.doProcedureDateMoment = moment(this.procedureEndDate2Digit.year+"-"+this.procedureEndDate2Digit.month+"-"+this.procedureEndDate2Digit.day).subtract(this.daysEarlier, "days")
         this.doProcedureDate.year = this.doProcedureDateMoment.format("YYYY")
         this.doProcedureDate.month = this.doProcedureDateMoment.format("M")
         this.doProcedureDate.day = this.doProcedureDateMoment.format("D")
-        //申請希望日を2桁で
+        //猟銃所持許可更新申請希望日を2桁で
         this.doProcedureDate2Digit.year = this.doProcedureDateMoment.format("YYYY")
         this.doProcedureDate2Digit.month = this.zeroPadding(this.doProcedureDateMoment.format("MM"),2)
         this.doProcedureDate2Digit.day = this.zeroPadding(this.doProcedureDateMoment.format("DD"),2)
 
-        //申請希望日の翌日
+        //猟銃所持許可更新申請希望日の翌日
         this.nextDayOfDoProcedureDateMoment = this.doProcedureDateMoment.add(1, "days")
         this.nextDayOfDoProcedureDate.year = this.nextDayOfDoProcedureDateMoment.format("YYYY")
         this.nextDayOfDoProcedureDate.month = this.nextDayOfDoProcedureDateMoment.format("MM")
         this.nextDayOfDoProcedureDate.day = this.nextDayOfDoProcedureDateMoment.format("DD")
         
         //診断書取得期間
-        //申請希望日の3ヶ月前〜当日に取得したい
+        //猟銃所持許可更新申請希望日の3ヶ月前〜当日に取得したい
         this.getMediTermStartDateMoment = moment(this.doProcedureDate2Digit.year+"-"+this.doProcedureDate2Digit.month+"-"+this.doProcedureDate2Digit.day).subtract(3, "months")
         this.getMediTermStartDateMoment = this.getMediTermStartDateMoment.add(1, "days")
         this.getMediTermStartDate.year = this.getMediTermStartDateMoment.format("YYYY")
@@ -675,6 +675,7 @@
   .input-form__label {
     display: block;
     margin-bottom: .5rem;
+    font-weight: bold;
   }
   .input-form__input-area {
     display: flex;
